@@ -18,13 +18,13 @@ export default function ControlsPanel() {
             <div style={{ marginBottom: 16 }}>
                 <label>Condición Climática</label>
                 <ButtonGroup variant="contained" style={{ marginLeft: 8 }}>
-                    {['Sol', 'Lluvia', 'Tormenta'].map((type) => (
+                    {['sunny', 'rainy', 'storm'].map((type) => (
                         <Button
                             key={type}
                             color={weather === type ? 'primary' : 'inherit'}
                             onClick={() => setWeather(type)}
                         >
-                            {type}
+                            {type == "sunny" ? "Sol" : type == "rainy" ? "Lluvia" : "Tormenta"}
                         </Button>
                     ))}
                 </ButtonGroup>

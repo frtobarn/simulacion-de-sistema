@@ -11,6 +11,7 @@ function App() {
 
   // Obtener baseData desde zustand (estado global)
   const baseData = useSimulationStore(state => state.baseData);
+  const weather = useSimulationStore(state => state.weather)
 
   useEffect(() => {
     console.log("Base Data:", baseData); // Para verificar que los datos se cargaron correctamente
@@ -25,7 +26,7 @@ function App() {
       </div>
 
       {/* Canvas 3D al lado derecho */}
-      <div style={{ width: '65%', height: '100vh' }}>
+      <div style={{ width: '65%', height: '100vh', backgroundColor: weather == "sunny" ? "#FFD700" : weather == "rainy" ? "#87CEEB" : "#67AECB" }}>
         <SimulationCanvas />
       </div>
     </div>

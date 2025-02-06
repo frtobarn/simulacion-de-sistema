@@ -7,7 +7,7 @@ export default function useLoadCSV() {
   const setBaseData = useSimulationStore((state) => state.setBaseData);
 
   useEffect(() => {
-    loadCSVData('/src/assets/data.csv')
+    loadCSVData('/data.csv')
       .then((data) => {
         setBaseData(data); // <-- Aquí actualizamos el estado global
       })
