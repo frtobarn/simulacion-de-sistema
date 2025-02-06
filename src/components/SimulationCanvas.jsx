@@ -14,7 +14,7 @@ function BuildingsPlane() {
   const texture = useLoader(TextureLoader, '/textures/buildings.png');
 
   return (
-    <mesh position={[0, 25, lanes * (-5)]} rotation={[0, 0, 0]}>
+    <mesh position={[0, 20, lanes * (-5)]} rotation={[0, 0, 0]}>
       {/* Geometría del plano */}
       <planeGeometry args={[50, 50]} /> {/* Ajusta el tamaño según necesites */}
       {/* Material con la textura asignada */}
