@@ -44,7 +44,7 @@ const useSimulationStore = create((set, get) => ({
   // Parámetros ajustables
   weather: 'sunny',           // 'sunny', 'rainy', 'storm'
   criticalDensity: 170,       // densidad crítica
-  lanes: 4,                   // número de carriles
+  lanes: 2,                   // número de carriles
   accident: false,            // booleana o algún factor de accidente
 
   // Datos estáticos

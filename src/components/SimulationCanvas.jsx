@@ -1,13 +1,30 @@
 // components/SimulationCanvas.jsx
 import React, { useEffect } from 'react';
-import { Canvas } from '@react-three/fiber'; // Asegúrate de que Canvas esté importado correctamente
+import { Canvas, useLoader } from '@react-three/fiber';
+import { TextureLoader } from 'three';// Asegúrate de que Canvas esté importado correctamente
 import { OrbitControls, Environment } from '@react-three/drei'; // Para controles y ambiente
 import useSimulationStore from '../stores/simulationStore';
-// import Vehicle from './Vehicle'; // Importar el componente de los vehículos
 import VehiclesPool from './VehiclesPool';
 import { useFrame } from '@react-three/fiber';
 
+function BuildingsPlane() {
 
+  const { lanes } = useSimulationStore();
+  // Cargar la textura PNG con transparencia
+  const texture = useLoader(TextureLoader, '/textures/buildings.png');
+
+  return (
+    <mesh position={[0, 25, lanes * (-5)]} rotation={[0, 0, 0]}>
+      {/* Geometría del plano */}
+      <planeGeometry args={[50, 50]} /> {/* Ajusta el tamaño según necesites */}
+      {/* Material con la textura asignada */}
+      <meshStandardMaterial
+        map={texture} // Asigna la textura al material
+        transparent={true} // Activa la transparencia
+      />
+    </mesh>
+  );
+}
 
 // Componente que usará useFrame
 function SimulationUpdater() {
@@ -29,7 +46,7 @@ function SimulationUpdater() {
 
 export default function SimulationCanvas() {
 
-  const { lanes, weather } = useSimulationStore();
+  const { lanes } = useSimulationStore();
 
 
   const createVehiclesPool = useSimulationStore(state => state.createVehiclesPool);
@@ -79,6 +96,9 @@ export default function SimulationCanvas() {
         <planeGeometry args={[2000, 400]} />
         <meshStandardMaterial color="black" />
       </mesh>
+
+      {/* Buildings */}
+      <BuildingsPlane />
 
       {/* Carriles (simples planos grises) */}
       {[...Array(lanes)].map((_, i) => (
