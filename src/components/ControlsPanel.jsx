@@ -12,13 +12,13 @@ export default function ControlsPanel() {
     } = useSimulationStore();
 
     return (
-        <div style={{ padding: 16, backgroundColor: '#f0f0f0', width: 300 }}>
+        <div style={{ padding: 16, backgroundColor: '#f0f0f0', width: '100%' }}>
             <h3>Parámetros del Sistema</h3>
 
             <div style={{ marginBottom: 16 }}>
                 <label>Condición Climática</label>
                 <ButtonGroup variant="contained" style={{ marginLeft: 8 }}>
-                    {['sunny', 'rainy', 'storm'].map((type) => (
+                    {['Sol', 'Lluvia', 'Tormenta'].map((type) => (
                         <Button
                             key={type}
                             color={weather === type ? 'primary' : 'inherit'}
@@ -33,6 +33,7 @@ export default function ControlsPanel() {
             <div style={{ marginBottom: 16 }}>
                 <label>Densidad Crítica: {criticalDensity}</label>
                 <Slider
+                    style={{ width: '80%' }}
                     min={100}
                     max={300}
                     step={10}

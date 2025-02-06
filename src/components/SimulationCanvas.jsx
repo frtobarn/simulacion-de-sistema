@@ -12,24 +12,42 @@ export default function SimulationCanvas() {
     // El hook useFrame debe estar dentro de Canvas
     <Canvas camera={{ position: [0, 50, 100], fov: 60 }}>
       {/* Luces */}
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[100, 100, 100]} />
+      <ambientLight intensity={0.4} color={"#f0f0f0"} />
+      {/* <directionalLight position={[100, 100, 100]} /> */}
 
       {/* Ambiente (HDR) */}
-      <Environment preset="city" />
+      {/* <Environment preset="city" /> */}
 
       {/* OrbitControls para navegar la cámara 3D con mouse */}
-      <OrbitControls minDistance={30} maxDistance={200} />
+      <OrbitControls
+        minDistance={30}
+        maxDistance={100}
+        minPolarAngle={Math.PI / 9} // Limita inclinación mínima (45°)
+        maxPolarAngle={Math.PI / 3} // Limita inclinación máxima (90°)
+        minAzimuthAngle={-Math.PI / 3} // Limita rotación izquierda (-45°)
+        maxAzimuthAngle={Math.PI / 3} // Limita rotación derecha (45°)
+      />
+
+
+      {/* Ground */}
+      <mesh
+        key={"ground"}
+        rotation={[-Math.PI / 2, 0, 0]}  // poner plano horizontal
+        position={[0, 0, 202]}
+      >
+        <planeGeometry args={[2000, 400]} />
+        <meshStandardMaterial color="black" />
+      </mesh>
 
       {/* Carriles (simples planos grises) */}
       {[...Array(lanes)].map((_, i) => (
         <mesh
           key={i}
           rotation={[-Math.PI / 2, 0, 0]}  // poner plano horizontal
-          position={[0, 0, i * 4 - (lanes*4)/2]}
+          position={[0, 0, 0 - (i * 4)]}//i * 4 - (lanes * 4) / 2
         >
           <planeGeometry args={[200, 4]} />
-          <meshStandardMaterial color="#333" />
+          <meshStandardMaterial color={i == 0 ? "yellow" : i == 1 ? "blue" : i == 2 ? "red" : "green"} />
         </mesh>
       ))}
 

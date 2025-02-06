@@ -14,8 +14,8 @@ export default function ChartsPanel() {
     }));
 
     return (
-        <div style={{ width: 500, height: 300, backgroundColor: '#fff', padding: 16 }}>
-            <LineChart width={400} height={200} data={chartData}>
+        <div style={{ width: '100%', height: 300, backgroundColor: '#fff', padding: 16 }}>
+            <LineChart width={350} height={175} data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="hour" />
                 <YAxis />
