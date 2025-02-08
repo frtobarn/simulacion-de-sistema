@@ -61,7 +61,7 @@ export default function SimulationCanvas() {
       <OrbitControls
         minDistance={30}
         maxDistance={100}
-        minPolarAngle={Math.PI / 9} // Limita inclinación mínima (45°)
+        minPolarAngle={Math.PI / 11} // Limita inclinación mínima (45°)
         maxPolarAngle={Math.PI / 3} // Limita inclinación máxima (90°)
         minAzimuthAngle={-Math.PI / 3} // Limita rotación izquierda (-45°)
         maxAzimuthAngle={Math.PI / 3} // Limita rotación derecha (45°)
