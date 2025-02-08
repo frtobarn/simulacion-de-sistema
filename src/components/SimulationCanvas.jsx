@@ -1,20 +1,21 @@
 // components/SimulationCanvas.jsx
 import React, { useEffect } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
-import { TextureLoader } from 'three';// Asegúrate de que Canvas esté importado correctamente
-import { OrbitControls, Environment } from '@react-three/drei'; // Para controles y ambiente
+import { TextureLoader } from 'three';
+import { OrbitControls, Environment } from '@react-three/drei';
 import useSimulationStore from '../stores/simulationStore';
 import VehiclesPool from './VehiclesPool';
-import { useFrame } from '@react-three/fiber';
+import SimulationUpdater from './SimulationUpdater';
+import MarksPlane from './MarksPlane';
 
 //Background de edificios
 function BuildingsPlane() {
 
-  const { lanes } = useSimulationStore();
+  const { lanes, laneWidth } = useSimulationStore();
   const texture = useLoader(TextureLoader, '/textures/buildings.png');
 
   return (
-    <mesh position={[0, 10, (lanes * (-4)) + 2]} rotation={[0, 0, 0]}>
+    <mesh position={[0, 10, (lanes * (-laneWidth)) + (laneWidth / 2) - laneWidth]} rotation={[0, 0, 0]}>
       <planeGeometry args={[400, 20]} />
       <meshStandardMaterial
         map={texture}
@@ -24,46 +25,9 @@ function BuildingsPlane() {
   );
 }
 
-//Background de señales
-function MarksPlane() {
-
-  const { lanes } = useSimulationStore();
-  const texture = useLoader(TextureLoader, '/textures/marks.png');
-
-  return (
-    <mesh position={[0, 0.05, 30 + ((lanes * (-4)) + 2)]} rotation={[-Math.PI / 2, 0, 0]}>
-      <planeGeometry args={[400, 60]} />
-      <meshStandardMaterial
-        map={texture}
-        transparent={true}
-      />
-    </mesh>
-  );
-}
-
-// Componente que usa useFrame
-// Este componente solo se encarga de la lógica, no renderiza nada
-function SimulationUpdater() {
-  const { updateVehicles } = useSimulationStore();
-
-  // useFrame: se llama ~60 veces por segundo
-  useFrame((state, delta) => {
-    // Actualizamos la posición de los vehículos
-    updateVehicles(delta);
-
-    // (Opcional) Logica para activar un nuevo vehiculo cada N tiempo:
-    // if (Math.random() < 0.01) {
-    //   console.log("Trying to spawn vehicle")
-    //   activateVehicle();
-    // }
-  });
-
-  return null; 
-}
-
 export default function SimulationCanvas() {
 
-  const { lanes } = useSimulationStore();
+  const { lanes, laneWidth, isRunning } = useSimulationStore();
 
 
   const createVehiclesPool = useSimulationStore(state => state.createVehiclesPool);
@@ -101,6 +65,7 @@ export default function SimulationCanvas() {
         maxPolarAngle={Math.PI / 3} // Limita inclinación máxima (90°)
         minAzimuthAngle={-Math.PI / 3} // Limita rotación izquierda (-45°)
         maxAzimuthAngle={Math.PI / 3} // Limita rotación derecha (45°)
+        enablePan={false} // bloquear movimiento
       />
 
 
@@ -108,7 +73,7 @@ export default function SimulationCanvas() {
       <mesh
         key={"ground"}
         rotation={[-Math.PI / 2, 0, 0]}  // poner plano horizontal
-        position={[0, 0.1, 202]}
+        position={[0, 0.1, 200 + (laneWidth / 2)]}
       >
         <planeGeometry args={[2000, 400]} />
         <meshStandardMaterial color="black" />
@@ -125,18 +90,28 @@ export default function SimulationCanvas() {
         <mesh
           key={i}
           rotation={[-Math.PI / 2, 0, 0]}  // poner plano horizontal
-          position={[0, 0, 0 - (i * 4)]}//i * 4 - (lanes * 4) / 2
+          position={[0, 0, 0 - (i * laneWidth)]}//Corriendo los carriles para que la orilla quede en el origen
         >
-          <planeGeometry args={[600, 4]} />
-          <meshStandardMaterial color={i%2 == 0 ? "yellow" :  "green"} />
+          <planeGeometry args={[600, laneWidth]} />
+          <meshStandardMaterial color={i % 2 == 0 ? "#023408" : "#224418"} />
         </mesh>
       ))}
+
+      {/* Carril transmi */}
+      <mesh
+        rotation={[-Math.PI / 2, 0, 0]}  // poner plano horizontal
+        position={[0, 0, 0 - (lanes * laneWidth)]}//Corriendo los carriles para que la orilla quede en el origen
+      >
+        <planeGeometry args={[600, laneWidth]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
 
       {/* Dibujar vehículos */}
       <VehiclesPool />
 
       {/* Lógica para actualizar la simulación */}
-      <SimulationUpdater />
+      {isRunning ? <SimulationUpdater /> : null}
+
     </Canvas>
   );
 }

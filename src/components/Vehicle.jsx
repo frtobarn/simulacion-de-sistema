@@ -8,7 +8,7 @@ export default function Vehicle({ position }) {
     return (
         <mesh position={position}>
             <boxGeometry args={[2, 1, 1]} />
-            <meshStandardMaterial color="green" />
+            <meshStandardMaterial color="black" />
         </mesh>
     );
 }

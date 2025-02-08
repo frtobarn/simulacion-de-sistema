@@ -26,7 +26,7 @@ function App() {
       </div>
 
       {/* Canvas 3D al lado derecho */}
-      <div style={{ width: '65%', height: '100vh', backgroundColor: weather == "sunny" ? "#FFD700" : weather == "rainy" ? "#87CEEB" : "#67AECB" }}>
+      <div style={{ width: '65%', height: '100vh', backgroundColor: weather == "sunny" ? "#8FCFFB" : weather == "rainy" ? "#87CEEB" : "#67AECB" }}>
         <SimulationCanvas />
       </div>
     </div>

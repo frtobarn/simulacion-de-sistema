@@ -42,9 +42,12 @@ const useSimulationStore = create((set, get) => ({
 
 
   // Parámetros ajustables
+  simulationSpeed : 1,        // Multimiplicador del delta time
+  isRunning: false,             // Esta Corriendo la simulación?
   weather: 'sunny',           // 'sunny', 'rainy', 'storm'
   criticalDensity: 170,       // densidad crítica
   lanes: 3,                   // número de carriles
+  laneWidth: 3,                  // ancho de cada carril
   accident: false,            // booleana o algún factor de accidente
 
   // Datos estáticos
@@ -55,6 +58,10 @@ const useSimulationStore = create((set, get) => ({
   // =======================
   // ACTIONS (para mutar estado)
   // =======================
+
+  setSimulationSpeed: (multiplier) => set({ simulationSpeed: multiplier }),
+
+  setIsRunning: (simulate) => set({ isRunning: simulate }),
 
   setCurrentHour: (time) => set({ currentHour: time }),
 

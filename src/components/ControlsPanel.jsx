@@ -9,6 +9,8 @@ export default function ControlsPanel() {
         criticalDensity,
         setCriticalDensity,
         triggerAccident,
+        simulationSpeed,
+        setSimulationSpeed,
     } = useSimulationStore();
 
     return (
@@ -39,6 +41,19 @@ export default function ControlsPanel() {
                     step={10}
                     value={criticalDensity}
                     onChange={(e, value) => setCriticalDensity(value)}
+                />
+            </div>
+
+
+            <div style={{ marginBottom: 16 }}>
+                <label>Velocidad simulación: {simulationSpeed}</label>
+                <Slider
+                    style={{ width: '80%' }}
+                    min={1}
+                    max={10}
+                    step={1}
+                    value={simulationSpeed}
+                    onChange={(e, multiplier) => setSimulationSpeed(multiplier)}
                 />
             </div>
 

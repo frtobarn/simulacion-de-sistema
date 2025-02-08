@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useSimulationStore from "../stores/simulationStore";
 
 // Función para formatear la hora
@@ -25,8 +25,7 @@ function startTimerInterval(currentHour, setCurrentHour) {
 }
 
 export default function Timer() {
-  const { currentHour, setCurrentHour } = useSimulationStore();
-  const [isRunning, setIsRunning] = useState(false);
+  const { currentHour, setCurrentHour, isRunning, setIsRunning } = useSimulationStore();
 
   useEffect(() => {
     let interval;
@@ -43,7 +42,7 @@ export default function Timer() {
   return (
     <div className="flex flex-col items-center gap-4 p-4">
       <h1 className="text-2xl font-bold">
-        Hora actual <span style={{color:"#ff0000"}}> {formatTime(currentHour)}</span>
+        Hora actual <span style={{ color: isRunning ? "#0000ff" : "#000" }}> {formatTime(currentHour)}</span>
       </h1>
       <div className="flex gap-2">
         <button
