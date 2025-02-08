@@ -7,26 +7,42 @@ import useSimulationStore from '../stores/simulationStore';
 import VehiclesPool from './VehiclesPool';
 import { useFrame } from '@react-three/fiber';
 
+//Background de edificios
 function BuildingsPlane() {
 
   const { lanes } = useSimulationStore();
-  // Cargar la textura PNG con transparencia
   const texture = useLoader(TextureLoader, '/textures/buildings.png');
 
   return (
-    <mesh position={[0, 20, lanes * (-5)]} rotation={[0, 0, 0]}>
-      {/* Geometría del plano */}
-      <planeGeometry args={[50, 50]} /> {/* Ajusta el tamaño según necesites */}
-      {/* Material con la textura asignada */}
+    <mesh position={[0, 10, (lanes * (-4)) + 2]} rotation={[0, 0, 0]}>
+      <planeGeometry args={[400, 20]} />
       <meshStandardMaterial
-        map={texture} // Asigna la textura al material
-        transparent={true} // Activa la transparencia
+        map={texture}
+        transparent={true}
       />
     </mesh>
   );
 }
 
-// Componente que usará useFrame
+//Background de señales
+function MarksPlane() {
+
+  const { lanes } = useSimulationStore();
+  const texture = useLoader(TextureLoader, '/textures/marks.png');
+
+  return (
+    <mesh position={[0, 0.05, 30 + ((lanes * (-4)) + 2)]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[400, 60]} />
+      <meshStandardMaterial
+        map={texture}
+        transparent={true}
+      />
+    </mesh>
+  );
+}
+
+// Componente que usa useFrame
+// Este componente solo se encarga de la lógica, no renderiza nada
 function SimulationUpdater() {
   const { updateVehicles } = useSimulationStore();
 
@@ -37,11 +53,12 @@ function SimulationUpdater() {
 
     // (Opcional) Logica para activar un nuevo vehiculo cada N tiempo:
     // if (Math.random() < 0.01) {
+    //   console.log("Trying to spawn vehicle")
     //   activateVehicle();
     // }
   });
 
-  return null; // Este componente solo se encarga de la lógica, no renderiza nada
+  return null; 
 }
 
 export default function SimulationCanvas() {
@@ -70,11 +87,11 @@ export default function SimulationCanvas() {
     // El hook useFrame debe estar dentro de Canvas
     <Canvas camera={{ position: [0, 50, 100], fov: 60, }} >
       {/* Luces */}
-      <ambientLight intensity={0.4} color={"#f0f0f0"} />
-      {/* <directionalLight position={[100, 100, 100]} /> */}
+      {/* <ambientLight intensity={0.4} color={"#f0f0f0"} /> */}
+      <directionalLight position={[100, 100, 100]} />
 
       {/* Ambiente (HDR) */}
-      {/* <Environment preset="city" /> */}
+      <Environment preset="city" />
 
       {/* OrbitControls para navegar la cámara 3D con mouse */}
       <OrbitControls
@@ -91,34 +108,32 @@ export default function SimulationCanvas() {
       <mesh
         key={"ground"}
         rotation={[-Math.PI / 2, 0, 0]}  // poner plano horizontal
-        position={[0, 0, 202]}
+        position={[0, 0.1, 202]}
       >
         <planeGeometry args={[2000, 400]} />
         <meshStandardMaterial color="black" />
       </mesh>
 
-      {/* Buildings */}
+      {/* marcas */}
+      <MarksPlane />
+
+      {/* Edificios */}
       <BuildingsPlane />
 
-      {/* Carriles (simples planos grises) */}
+      {/* Carriles */}
       {[...Array(lanes)].map((_, i) => (
         <mesh
           key={i}
           rotation={[-Math.PI / 2, 0, 0]}  // poner plano horizontal
           position={[0, 0, 0 - (i * 4)]}//i * 4 - (lanes * 4) / 2
         >
-          <planeGeometry args={[300, 4]} />
-          <meshStandardMaterial color={i == 0 ? "yellow" : i == 1 ? "blue" : i == 2 ? "red" : "green"} />
+          <planeGeometry args={[600, 4]} />
+          <meshStandardMaterial color={i%2 == 0 ? "yellow" :  "green"} />
         </mesh>
       ))}
 
       {/* Dibujar vehículos */}
       <VehiclesPool />
-      {/* {vehiclesPositions.map((pos, i) => (
-        <Vehicle key={i} position={pos} />
-      ))} */}
-
-
 
       {/* Lógica para actualizar la simulación */}
       <SimulationUpdater />

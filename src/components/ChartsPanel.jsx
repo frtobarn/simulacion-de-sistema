@@ -2,6 +2,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import useSimulationStore from '../stores/simulationStore';
+import Timer from './Timer';
 
 export default function ChartsPanel() {
     const { baseData, currentHour } = useSimulationStore();
@@ -22,7 +23,7 @@ export default function ChartsPanel() {
                 <Tooltip />
                 <Line type="monotone" dataKey="demand" stroke="#8884d8" />
             </LineChart>
-            <p>Hora actual: {currentHour}</p>
+            <Timer/>
         </div>
     );
 }

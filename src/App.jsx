@@ -13,15 +13,15 @@ function App() {
   const baseData = useSimulationStore(state => state.baseData);
   const weather = useSimulationStore(state => state.weather)
 
-  useEffect(() => {
-    console.log("Base Data:", baseData); // Para verificar que los datos se cargaron correctamente
-  }, [baseData]);
+  // useEffect(() => {
+  //   console.log("Base Data:", baseData); // Para verificar que los datos se cargaron correctamente
+  // }, [baseData]);
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
       {/* Panel Izquierdo: Controles */}
       <div style={{ width: '35%', height: '100vh', marginRight: 16 }}>
-        <ControlsPanel />
+        <ControlsPanel /> 
         <ChartsPanel />
       </div>
 

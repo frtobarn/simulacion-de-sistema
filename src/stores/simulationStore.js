@@ -44,7 +44,7 @@ const useSimulationStore = create((set, get) => ({
   // Parámetros ajustables
   weather: 'sunny',           // 'sunny', 'rainy', 'storm'
   criticalDensity: 170,       // densidad crítica
-  lanes: 2,                   // número de carriles
+  lanes: 3,                   // número de carriles
   accident: false,            // booleana o algún factor de accidente
 
   // Datos estáticos
@@ -55,6 +55,8 @@ const useSimulationStore = create((set, get) => ({
   // =======================
   // ACTIONS (para mutar estado)
   // =======================
+
+  setCurrentHour: (time) => set({ currentHour: time }),
 
   setBaseData: (data) => set({ baseData: data }),
 
@@ -102,12 +104,12 @@ const useSimulationStore = create((set, get) => ({
       v.x += v.speed * delta;
 
       // si llega a x >= 100 => desactivarlo (o reactivarlo)
-      if (v.x >= 100) {
+      if (v.x >= 200) {
         // OPCIÓN 1: desactivarlo
-        v.active = false;
+        // v.active = false;
 
         // OPCIÓN 2: volverlo a -100 (SIN desactivarlo):
-        // v.x = -100;
+        v.x = -200;
       }
 
       return v;
@@ -117,17 +119,6 @@ const useSimulationStore = create((set, get) => ({
   },
 
 
-  // updateVehicles: () => {
-  //   // Ejemplo de "mover" vehículos en el eje X
-  //   // En un caso real, harías cálculos de densidad, velocidad, etc.
-  //   const { vehiclesPositions } = get();
-
-  //   const newPositions = vehiclesPositions.map(pos => {
-  //     return [pos[0] + 1, pos[1], pos[2]];
-  //   });
-
-  //   set({ vehiclesPositions: newPositions });
-  // },
 }));
 
 export default useSimulationStore;
