@@ -1,6 +1,6 @@
 // components/VehiclesPool.jsx
 import React from 'react';
-import useSimulationStore from '../stores/simulationStore';
+import useSimulationStore from '../../stores/simulationStore';
 import Vehicle from './Vehicle';
 
 export default function VehiclesPool() {

@@ -2,7 +2,7 @@
 import React from 'react';
 import {  useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
-import useSimulationStore from '../stores/simulationStore';
+import useSimulationStore from '../../stores/simulationStore';
 
 export default function MarksPlane() {
 

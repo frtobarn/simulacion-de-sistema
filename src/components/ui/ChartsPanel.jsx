@@ -1,11 +1,11 @@
 // components/ChartsPanel.jsx
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
-import useSimulationStore from '../stores/simulationStore';
-import Timer from './Timer';
+import useSimulationStore from '../../stores/simulationStore';
+import Timer from '../ui/Timer';
 
 export default function ChartsPanel() {
-    const { baseData, currentHour } = useSimulationStore();
+    const { baseData, realDemand } = useSimulationStore();
 
     // Supongamos que baseData es un array de objetos { hour, demand, density, ... }
     // Filtramos/transformamos si es necesario:
@@ -23,7 +23,8 @@ export default function ChartsPanel() {
                 <Tooltip />
                 <Line type="monotone" dataKey="demand" stroke="#8884d8" />
             </LineChart>
-            <Timer/>
+            <h4> Demanda actual {realDemand}</h4>
+            <Timer />
         </div>
     );
 }

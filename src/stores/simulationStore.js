@@ -42,17 +42,20 @@ const useSimulationStore = create((set, get) => ({
 
 
   // Parámetros ajustables
-  simulationSpeed : 1,        // Multimiplicador del delta time
-  isRunning: false,             // Esta Corriendo la simulación?
-  weather: 'sunny',           // 'sunny', 'rainy', 'storm'
+  simulationSpeed: 1,         // Multimiplicador del delta time
+  isRunning: false,           // Esta Corriendo la simulación?
+  weather: 'dry',             // 'sunny', 'rainy', 'storm'
   criticalDensity: 170,       // densidad crítica
   lanes: 3,                   // número de carriles
-  laneWidth: 3,                  // ancho de cada carril
+  laneWidth: 3,               // ancho de cada carril
   accident: false,            // booleana o algún factor de accidente
 
   // Datos estáticos
   baseData: [],               // array con datos de demanda, etc.
   currentHour: 0,             // hora simulada
+
+  // Datos dinámicos
+  realDemand: 0,              // demanda inicial cero
   // vehiclesPositions: [],      // posiciones calculadas (ej. [x,y,z]) de vehículos
 
   // =======================
@@ -83,15 +86,18 @@ const useSimulationStore = create((set, get) => ({
   // GETTERS / SELECTORS
   // =======================
 
-  getRealDemand: () => {
+  updateRealDemand: () => {
     const { baseData, currentHour, weather } = get();
-    const weatherFactor = { sunny: 0.1, rainy: 0.3, storm: 0.5 }[weather] || 0;
+    const weatherFactor = { dry: 0.1, rainy: 0.3, storm: 0.5 }[weather] || 0;
 
-    if (baseData[currentHour]?.demand) {
-      return baseData[currentHour].demand * (1 + weatherFactor);
+
+    if (baseData[parseInt(currentHour)]?.demand) {
+      const _demand = baseData[parseInt(currentHour)].demand * (1 + weatherFactor);
+      set({ realDemand: _demand });
+      return _demand;
     }
 
-    return 1000; // valor por defecto en caso de que no haya datos
+    return 10; // valor por defecto en caso de que no haya datos
   },
 
   // =======================

@@ -2,13 +2,13 @@
 import React, { useEffect } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { TextureLoader } from 'three';
-import { OrbitControls, Environment } from '@react-three/drei';
 import useSimulationStore from '../stores/simulationStore';
-import VehiclesPool from './VehiclesPool';
+import { OrbitControls, Environment } from '@react-three/drei';
+import VehiclesPool from './three/VehiclesPool';
 import SimulationUpdater from './SimulationUpdater';
-import MarksPlane from './MarksPlane';
+import MarksPlane from './three/MarksPlane';
 
-//Background de edificios
+//Background de edificios 
 function BuildingsPlane() {
 
   const { lanes, laneWidth } = useSimulationStore();
@@ -107,7 +107,7 @@ export default function SimulationCanvas() {
       </mesh>
 
       {/* Dibujar vehículos */}
-      <VehiclesPool />
+      <VehiclesPool /> 
 
       {/* Lógica para actualizar la simulación */}
       {isRunning ? <SimulationUpdater /> : null}
