@@ -45,6 +45,7 @@ const useSimulationStore = create((set, get) => ({
   simulationSpeed: 1,         // Multimiplicador del delta time
   isRunning: false,           // Esta Corriendo la simulación?
   weather: 'dry',             // 'sunny', 'rainy', 'storm'
+  transmiEffect: 0,
   criticalDensity: 170,       // densidad crítica
   lanes: 3,                   // número de carriles
   laneWidth: 3,               // ancho de cada carril
@@ -72,6 +73,8 @@ const useSimulationStore = create((set, get) => ({
 
   setWeather: (value) => set({ weather: value }),
 
+  setTransmiEffect: (value) => set({ transmiEffect: value }),
+
   setCriticalDensity: (value) => set({ criticalDensity: value }),
 
   setLanes: (value) => set({ lanes: value }),
@@ -87,12 +90,12 @@ const useSimulationStore = create((set, get) => ({
   // =======================
 
   updateRealDemand: () => {
-    const { baseData, currentHour, weather } = get();
+    const { baseData, currentHour, weather, transmiEffect } = get();
     const weatherFactor = { dry: 0.1, rainy: 0.3, storm: 0.5 }[weather] || 0;
 
 
     if (baseData[parseInt(currentHour)]?.demand) {
-      const _demand = baseData[parseInt(currentHour)].demand * (1 + weatherFactor);
+      const _demand = baseData[parseInt(currentHour)].demand * (1 + weatherFactor) * (1 - transmiEffect);
       set({ realDemand: _demand });
       return _demand;
     }

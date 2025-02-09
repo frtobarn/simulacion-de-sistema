@@ -9,13 +9,19 @@ export default function ControlsPanel() {
         triggerAccident,
         simulationSpeed,
         setSimulationSpeed,
-        updateRealDemand
+        updateRealDemand,
+        transmiEffect,
+        setTransmiEffect,
     } = useSimulationStore();
-
 
     const handleWeatherChange = (type) => {
         setWeather(type); // Actualiza el estado con el nuevo clima
-        updateRealDemand()
+        updateRealDemand();
+    };
+
+    const handleTransmiChange = (value) => {
+        setTransmiEffect(value);
+        updateRealDemand();
     };
 
     return (
@@ -23,7 +29,6 @@ export default function ControlsPanel() {
             <h3>Parámetros del Sistema</h3>
 
             <div style={{ marginBottom: 16 }}>
-
                 <div style={{ marginBottom: 16 }}>
                     <label>Velocidad simulación: {simulationSpeed}</label>
                     <Slider
@@ -32,7 +37,7 @@ export default function ControlsPanel() {
                         max={10}
                         step={1}
                         value={simulationSpeed}
-                        onChange={(e, multiplier) => setSimulationSpeed(multiplier)}
+                        onChange={(e, value) => setSimulationSpeed(value)} // Maneja ambos argumentos correctamente
                     />
                 </div>
 
@@ -42,17 +47,30 @@ export default function ControlsPanel() {
                         <Button
                             key={type}
                             color={weather === type ? 'primary' : 'inherit'}
-                            onClick={() => handleWeatherChange(type)} // Usa una función anónima para pasar el argumento
+                            onClick={() => handleWeatherChange(type)}
+                            aria-pressed={weather === type}
                         >
-                            {type == "dry" ? "Sol" : type == "rainy" ? "Lluvia" : "Tormenta"}
+                            {type === "dry" ? "Sol" : type === "rainy" ? "Lluvia" : "Tormenta"}
                         </Button>
                     ))}
                 </ButtonGroup>
+
+                <div style={{ marginTop: 16 }}>
+                    <label>Efecto transmilenio: {transmiEffect * 100} %</label>
+                    <Slider
+                        style={{ width: '80%' }}
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={transmiEffect}
+                        onChange={(e, value) => handleTransmiChange(value)} // Usa el segundo argumento `value`
+                    />
+                </div>
             </div>
 
-            <Button variant="contained" color="error" onClick={triggerAccident}>
+            {/* <Button variant="contained" color="error" onClick={triggerAccident}>
                 Simular Accidente
-            </Button>
+            </Button> */}
         </div>
     );
 }
