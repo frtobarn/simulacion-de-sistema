@@ -14,11 +14,13 @@ export default function ControlsPanel() {
         setTransmiEffect,
     } = useSimulationStore();
 
+    // Actualiza la condición climática y la demanda real.
     const handleWeatherChange = (type) => {
-        setWeather(type); // Actualiza el estado con el nuevo clima
+        setWeather(type); 
         updateRealDemand();
     };
 
+    // Actualiza el efecto de transmilenio y la demanda real.
     const handleTransmiChange = (value) => {
         setTransmiEffect(value);
         updateRealDemand();
@@ -29,7 +31,7 @@ export default function ControlsPanel() {
             <h3>Parámetros del Sistema</h3>
 
             <div style={{ marginBottom: 16 }}>
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 10 }}>
                     <label>Velocidad simulación: {simulationSpeed}</label>
                     <Slider
                         style={{ width: '80%' }}
@@ -37,7 +39,7 @@ export default function ControlsPanel() {
                         max={10}
                         step={1}
                         value={simulationSpeed}
-                        onChange={(e, value) => setSimulationSpeed(value)} // Maneja ambos argumentos correctamente
+                        onChange={(e, value) => setSimulationSpeed(value)}
                     />
                 </div>
 

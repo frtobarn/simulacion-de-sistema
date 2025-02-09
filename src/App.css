@@ -1,0 +1,139 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh; /* Ensure it takes the full height of the viewport */
+}
+
+.controls-panel {
+  width: 39%;
+  height: 100vh;
+  margin-right: 16px;
+  z-index: 1; /* Ensure the control panel is above */
+  position: relative;
+  box-sizing: border-box; /* Ensure padding and border are included in the total width */
+  padding: 16px;
+  background-color: #f0f0f0;
+}
+
+.canvas-panel {
+  width: 60%;
+  height: 100vh;
+  z-index: 0; /* Ensure the canvas is below */
+  position: relative;
+  border: 5px solid #D3E4CD; /* Add a light pastel border */
+}
+
+.app-container.dry .canvas-panel {
+  background-color: #8FCFFB;
+}
+
+.app-container.rainy .canvas-panel {
+  background-color: #87CEEB;
+}
+
+.app-container.storm .canvas-panel {
+  background-color: #67AECB;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  html, body {
+    overflow: auto; /* Allow scrolling */
+  }
+
+  .app-container {
+    flex-direction: column;
+    height: auto; /* Allow the container to expand */
+  }
+
+  .controls-panel {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+  }
+
+  .canvas-panel {
+    width: 100%;
+    height: auto; /* Allow the canvas to expand */
+  }
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+}
+
+.timer-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.timer-title .running {
+  color: #0000ff;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.simulation-label {
+  display: inline-block;
+  margin-right: 16px;
+}
+
+.start-button {
+  padding: 4px 8px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+}
+
+.pause-button {
+  padding: 4px 8px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 4px;
+}
+
+.reset-button {
+  padding: 4px 8px;
+  background-color: #6c757d;
+  color: white;
+  border-radius: 4px;
+}
+
+.control-group {
+  margin-bottom: 16px;
+}
+
+.control-item {
+  margin-bottom: 10px;
+}
+
+.slider {
+  width: 80%;
+}
+
+.button-group {
+  margin-left: 8px;
+}
+
+.charts-panel {
+  width: 100%;
+  height: 300px;
+  background-color: #fff;
+  padding: 16px;
+  box-sizing: border-box; /* Ensure padding is included in the total width */
+}
