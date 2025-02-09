@@ -2,44 +2,34 @@
 import { create } from 'zustand';
 
 // Cantidad máxima de vehículos que tendremos en el pool
-const MAX_VEHICLES = 10;
+const MAX_VEHICLES = 2000;
 
 // Creamos el store:
 const useSimulationStore = create((set, get) => ({
 
-  vehicles: [], // array con objetos { active, x, speed, ... }
+  vehicles: Array.from({ length: MAX_VEHICLES }, (_, i) => ({
+    id: i,
+    active: false,
+    position: { x: -1000, y: 0.5, z: 0 },
+  })),
 
-  // Llamar esto una vez al inicio (o con useEffect) para crear el pool
-  createVehiclesPool: () => {
-    const initialVehicles = [];
-    for (let i = 0; i < MAX_VEHICLES; i++) {
-      initialVehicles.push({
-        id: i,
-        active: false,
-        x: -100, // posición inicial en X (fuera de la vista)
-        speed: Math.random() * 2 + 10, // velocidad aleatoria entre 1 y 3
-        lane: Math.random() * 2 + 1,
-        // puedes guardar más cosas como z, lane, color, etc.
-      });
-    }
-    set({ vehicles: initialVehicles });
-  },
-
-
-
-  // Función para "activar" un vehículo del pool (por ejemplo al iniciar)
   activateVehicle: () => {
     const { vehicles } = get();
-    const idx = vehicles.findIndex(v => v.active === false);
+    const idx = vehicles.findIndex(v => !v.active);
+
     if (idx !== -1) {
-      // Hay un vehículo inactivo, lo activamos
       vehicles[idx].active = true;
-      vehicles[idx].x = -100;            // reinicia su posición
-      vehicles[idx].speed = Math.random() * 2 + 1; // nueva velocidad aleatoria
-      set({ vehicles: [...vehicles] });  // disparar actualización
+      vehicles[idx].position = { x: -200, y: 0.5, z: 0 }; // Posición inicial de vehículos activos
+      console.log(`Vehículo activado: ${JSON.stringify(vehicles[idx])}`);
+      set({ vehicles: [...vehicles] });
     }
   },
 
+  deactivateVehicle: (id) => {
+    const { vehicles } = get();
+    vehicles[id].active = false;
+    set({ vehicles: [...vehicles] });
+  },
 
   // Parámetros ajustables
   simulationSpeed: 1,         // Multimiplicador del delta time
